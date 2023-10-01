@@ -1,0 +1,129 @@
+﻿* {
+    font-family: Montserrat;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.background {
+    width: 1364px;
+    height: 657px;
+    background-image: url('SIGN UP.png');
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-box {
+    position: relative;
+    height: 500px;
+    background: #CCC;
+    border-radius: 24px;
+}
+
+.text-box1 #Button2 {
+    position: relative;
+    height: 50px;
+    background: #24C916;
+    border: 1.5px solid #76299B;
+    box-sizing: border-box;
+    border-radius: 20px;
+    font-family: Montserrat;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+.text-box1 #Button1 {
+    position: relative;
+    height: 50px;
+    background: #76299B;
+    border: 1.5px solid #76299B;
+    box-sizing: border-box;
+    border-radius: 20px;
+    font-family: Montserrat;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+.text-box1 #firstname {
+    position: relative;
+    height: 50px;
+    background: #FFFFFF;
+    border: 1.5px solid #76299B;
+    box-sizing: border-box;
+    border-radius: 20px;
+}
+
+.text-box1 #lastname {
+    position: relative;
+    height: 50px;
+    background: #FFFFFF;
+    border: 1.5px solid #76299B;
+    box-sizing: border-box;
+    border-radius: 20px;
+}
+
+.text-box1 #email {
+    position: relative;
+    height: 50px;
+    background: #FFFFFF;
+    border: 1.5px solid #76299B;
+    box-sizing: border-box;
+    border-radius: 20px;
+}
+
+.text-box1 #phone {
+    position: relative;
+    height: 50px;
+    background: #FFFFFF;
+    border: 1.5px solid #76299B;
+    box-sizing: border-box;
+    border-radius: 20px;
+}
+
+.text-box1 #address {
+    position: relative;
+    height: 50px;
+    background: #FFFFFF;
+    border: 1.5px solid #76299B;
+    box-sizing: border-box;
+    border-radius: 20px;
+}
+
+.text-box1 #password {
+    position: relative;
+    height: 50px;
+    background: #FFFFFF;
+    border: 1.5px solid #76299B;
+    box-sizing: border-box;
+    border-radius: 20px;
+}
+
+.text-box1 #Password2 {
+    position: relative;
+    height: 50px;
+    background: #FFFFFF;
+    border: 1.5px solid #76299B;
+    box-sizing: border-box;
+    border-radius: 20px;
+}
+
+.text-box1 #Button1 {
+    position: relative;
+    height: 50px;
+    background: #24C916;
+    border: 1.5px solid #76299B;
+    box-sizing: border-box;
+    border-radius: 20px;
+    font-family: Montserrat;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: rgba(118, 41, 155, 0.56);
+    padding-left: 10px;
+}

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<mothercare.Data.Tbl_Cart>
+@{
+    ViewBag.Title = "Orders";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid px-4">
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="../Admin/Dashboard">Dashboard</a></li>
+        <li class="breadcrumb-item active">Orders</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fa fa-shopping-cart"></i>
+            Orders
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="datatablesSimple" width="100%" cellspacing="0" style="text-align:center">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center">Order ID</th>
+                            <th style="text-align:center">Member ID</th>
+                            <th style="text-align:center">Name</th>
+                            <th style="text-align:center">Cart Status</th>
+                            <th style="text-align:center">Payment Type</th>
+                            <th style="text-align:center">Total</th>
+                            <th style="text-align:center">Date</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th style="text-align:center">Order ID</th>
+                            <th style="text-align:center">Member ID</th>
+                            <th style="text-align:center">Name</th>
+                            <th style="text-align:center">Cart Status</th>
+                            <th style="text-align:center">Payment Type</th>
+                            <th style="text-align:center">Total</th>
+                            <th style="text-align:center">Date</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td>@item.OrderId</td>
+                            <td>@item.MemberId</td>
+                            <td>@item.Tbl_Members.FirstName @item.Tbl_Members.LastName</td>
+                            <td>@item.Tbl_CartStatus.CartStatus</td>
+                            <td>@item.PaymentType</td>
+                            <td>@item.Total</td>
+                            <td>@item.Date</td>
+                            <td>
+                                @Html.ActionLink("Edit", "OrdersEdit", new { cartId = item.CartId })
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

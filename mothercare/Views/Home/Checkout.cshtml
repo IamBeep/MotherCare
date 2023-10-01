@@ -1,0 +1,84 @@
+﻿@using mothercare.Models.Home;
+@{
+    ViewBag.Title = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Checkout</h2>
+@if (Session["cart"] == null)
+{
+    <div class="alert alert-danger">
+        <strong>No product added to cart!</strong>
+    </div>
+
+}
+else
+{
+    <table class="table table-bordered" style="text-align:center">
+        <thead>
+            <tr>
+                <th style="text-align:center">Product</th>
+                <th style="text-align:center">Item Price</th>
+                <th style="text-align:center">Quantity</th>
+                <th style="text-align:center">Price</th>
+                <th style="text-align:center">Add</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int total = 0;
+            }
+            @foreach (Item item in (List<Item>)Session["cart"])
+            {
+                int singletotal = Convert.ToInt32(item.Quantity * item.Product.Price);
+                total += singletotal;
+                <tr>
+                    <td>@item.Product.ProductName</td>
+
+                    <td>@item.Product.Price</td>
+                    <td>@item.Quantity</td>
+                    <td>@{decimal x = item.Quantity; decimal y = (decimal)item.Product.Price; x = x * y;}@x</td>
+                    <td>
+                        <a href="@Url.Action("IncreaseQty", "Home", new { productId = item.Product.ProductId})">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                        <a href="@Url.Action("DecreaseQty", "Home", new { productId = item.Product.ProductId })">
+                            <i class="fa fa-minus"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td colspan="4" class="text-right"><b>Total: @total /=</b></td>
+            </tr>
+            @{
+                Session["SesTotal"] = total;
+            }
+
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal")">Confirm >></button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Confirm your order?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <a type="button" class="btn btn-primary" href="@Url.Action("PaymentWithPaypal", "Payment")">Yes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+

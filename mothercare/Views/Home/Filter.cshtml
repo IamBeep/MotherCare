@@ -1,0 +1,138 @@
+﻿@model mothercare.Models.Home.FilterClass
+
+@{
+    ViewBag.Title = "Filter";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/Alert.css" rel="stylesheet" />
+<link href="~/Content/sidebar.css" rel="stylesheet" />
+<div class="" style="margin-top: 10px;">
+    <div class="title"><strong> Filters</strong></div>
+    <ul id="category-tabs">
+        <li>
+            <a href="javascript:void" class="main-category" style="color:orangered"> Categories<i class="fa fa-plus"></i></a>
+            <ul class="sub-category-tabs" style="display:none;">
+                @{
+                    foreach (var cat in Model.categories)
+                    {
+                        <li><a href="@Url.Action("Filter", "Home", new {name="category", category=cat.CategoryId})">@cat.CategoryName</a></li>
+                    }
+
+
+}
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:void" class="main-category" style="color:orangered"> Rating<i class="fa fa-plus"></i></a>
+            <ul class="sub-category-tabs product-rating" style="display:none;">
+                <li class="icon-d">
+                    <button style="text-decoration: none; padding: 0; border: none; background: none;" onclick="location.href='@Url.Action("Filter", "Home", new {name="rating", category=5})'" type="button">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </button>
+                </li>
+                <li class="icon-d">
+                    <button style="text-decoration: none; padding: 0; border: none; background: none;" onclick="location.href='@Url.Action("Filter", "Home", new {name="rating", category=4})'" type="button">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </button>
+                </li>
+                <li class="icon-d">
+                    <button style="text-decoration: none; padding: 0; border: none; background: none;" onclick="location.href='@Url.Action("Filter", "Home", new {name="rating", category=3})'" type="button">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </button>
+                </li>
+                <li class="icon-d">
+                    <button style="text-decoration: none; padding: 0; border: none; background: none;" onclick="location.href='@Url.Action("Filter", "Home", new {name="rating", category=2})'" type="button">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </button>
+                </li>
+                <li class="icon-d">
+                    <button style="text-decoration: none; padding: 0; border: none; background: none;" onclick="location.href='@Url.Action("Filter", "Home", new {name="rating", category=1})'" type="button">
+                        <i class="fa fa-star"></i>
+                    </button>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<!-- partial -->
+<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+<script src="~/Content/script.js"></script>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header">
+            <div class="title"><strong> Filtered Products</strong></div>
+        </div>
+        @if (Model.results > 0)
+        {
+            <h5><b style="color:green">Filtering successful with <i>@Model.results</i> result/s.</b></h5>
+        }
+        else
+        {
+            <h5><b style="color:red">Filtering returned with <i>@Model.results</i> result/s.</b></h5>
+        }
+    </div>
+</div>
+<div class="row product-container">
+    @if (Model.results>0)
+    {
+        foreach (var item in Model.products)
+        {
+            <div class="col-md-3 col-sm-3 col-xs-6" style="margin-bottom:8px">
+                <div class="thumbnail product-item" style="height:350px">
+                    <a href="@Url.Action("ViewProduct", "Home", new {productId=item.ProductId})" style="text-decoration: none;">
+                        <img class="img-responsive .bg-secondary.bg-gradient" title="Click to View Product detail"
+                             style="cursor:pointer;height:160px;width:100%"
+                             src="~/ProductImg/@item.ProductImage" />
+
+                        <div class="caption">
+                            <h5>@item.ProductName</h5>
+                            <h4><span style="color:orange"><b>৳ @item.Price</b></span></h4>
+                            <p>
+                                @if (item.Quantity > 0 && item.IsDelete != null && !(bool)item.IsDelete)
+                                {
+                                    using (Html.BeginForm("AddToCart", "Home", new { productId = item.ProductId, url = HttpContext.Current.Request.Url.AbsoluteUri }, FormMethod.Post))
+                                    {
+                                        <button type="submit" class="pull-right"><i class="fa fa-shopping-cart" style="color:green"></i></button>
+                                    }
+                                <p> Available </p>
+                            }
+                            else
+                            {
+                                <p>Not Available</p>
+                            }
+                                </p>
+
+                                @if (item.IsFeatured == true)
+                                {
+                                    <div class="product-item-badge" style="background-color:orangered">
+                                        <p style="text-align:center"><b>New</b></p>
+                                    </div>
+
+                                }
+                                else
+                                {
+                                    <div class="product-item-badge" style="background-color:black">
+                                        <p style="text-align:center"><b>Old</b></p>
+                                    </div>
+                                }
+
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+    }
+
+</div>

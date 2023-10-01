@@ -1,0 +1,73 @@
+﻿
+@using mothercare.Models.Home;
+
+@{
+    ViewBag.Title = "Checkout Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var data = ViewBag.Message;
+    var status = ViewBag.Status;
+}
+@if (status == 1)
+{
+    <div class="alert alert-success" role="alert">
+        <h3 style="text-align:center">@data</h3>
+    </div>
+
+}
+@{
+    int Total = 0;
+}
+@foreach (Item item in (List<Item>)Session["cart"])
+{
+    int lineTotal = Convert.ToInt32(item.Quantity * item.Product.Price);
+    Total = Convert.ToInt32(@Total + lineTotal);
+}
+@if (Session["cart"] == null || Total == 0)
+{
+    <div class="alert alert-danger">
+        <strong>No product added to cart!</strong>
+    </div>
+
+}
+else
+{
+    <table class="table table-bordered" style="text-align:center">
+        <thead>
+            <tr>
+                <th style="text-align:center">Product</th>
+                <th style="text-align:center">Price</th>
+                <th style="text-align:center">Quantity</th>
+                <th style="text-align:center">Line Total</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int Total2 = 0;
+            }
+            @foreach (Item item in (List<Item>)Session["cart"])
+            {
+                int lineTotal = Convert.ToInt32(item.Quantity * item.Product.Price);
+                Total2 = Convert.ToInt32(@Total2 + lineTotal);
+
+                Session["SesTotal"] = Total;
+
+                <tr>
+                    <td>@item.Product.ProductName</td>
+                    <td>@item.Product.Price</td>
+                    <td>@item.Quantity</td>
+                    <td>@lineTotal</td>
+                </tr>
+            }
+
+            <tr>
+                <td colspan="4" class="text-right"><b>Total: @Total2 /=</b></td>
+
+            </tr>
+        </tbody>
+    </table>
+    <a href="@Url.Action("PaymentWithPapal", "Payment")" class="btn btn-success">Payment >></a>
+
+}

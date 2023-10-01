@@ -1,0 +1,11 @@
+﻿
+
+.background {
+    background-image: url('About_Sus_3.png');
+    width: 1366px;
+    height: 768px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-repeat: no-repeat;
+}

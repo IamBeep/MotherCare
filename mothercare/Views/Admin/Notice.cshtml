@@ -1,0 +1,55 @@
+﻿@model IEnumerable<mothercare.Data.Tbl_Notice>
+@{
+    ViewBag.Title = "Notices";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid px-4">
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="../Admin/Dashboard">Dashboard</a></li>
+        <li class="breadcrumb-item active">Notice</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table"></i>
+            Notice
+            <a href="../Admin/NoticeAdd" class="btn btn-info btn-sm pull-right"><i class="fa fa-plus"></i> Add New</a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="datatablesSimple" width="100%" cellspacing="0" style="text-align:center">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center">Notice ID</th>
+                            <th style="text-align:center">Notice</th>
+                            <th style="text-align:center">Status</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th style="text-align:center">Notice ID</th>
+                            <th style="text-align:center">Notice</th>
+                            <th style="text-align:center">Status</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.NoticeId</td>
+                                <td>@item.Notice</td>
+                                <td>@item.NoticeStatus</td>
+                                <td>
+
+                                    @Html.ActionLink("Edit", "NoticeEdit", new { noticeId = item.NoticeId })
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

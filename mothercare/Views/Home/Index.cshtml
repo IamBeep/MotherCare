@@ -1,0 +1,224 @@
+﻿@model mothercare.Models.Home.HomeIndexViewModel
+
+
+@{
+    ViewBag.Title = "Home";
+}
+
+@using PagedList;
+@using PagedList.Mvc;
+
+<!-- Latest compiled and minified CSS -->
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/Alert.css" rel="stylesheet" />
+@{
+
+    foreach (var notices in Model.notice)
+    {
+        if (notices.NoticeStatus == true)
+        {
+            <div class="demo-preview ">
+                <div class="alert alert-success alert-dismissable fade in">
+                    <button type="button" data-dismiss="alert" aria-label="close" class="close"><span aria-hidden="true" style="color:white">X</span></button>
+                    <strong>Hello!</strong> @notices.Notice
+                </div>
+            </div>
+        }
+    }
+}
+
+<div id="themeSlider" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        @{
+            int counter1 = 0;
+            foreach (var item in Model.slider)
+            {
+                if (counter1 == 0)
+                {
+                    <li data-target="#themeSlider" data-slide-to="@counter1" class="active"></li>
+                }
+                else
+                {
+                    <li data-target="#themeSlider" data-slide-to="@counter1"></li>
+                }
+                counter1++;
+            }
+        }
+    </ol>
+
+    <div class="carousel-inner">
+        @{
+            int counter = 0;
+            foreach (var item in Model.slider)
+            {
+                counter++;
+                if (counter == 1)
+                {
+                    <div class="item active">
+                        <div class="imgOverlay"></div>
+                        <img style="height:320px;width:100%" src="~/ProductImg/@item.SliderPath" alt="First slide">
+                        <div class="carousel-caption">
+                            <h3>@item.Title</h3>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="item">
+                        <div class="imgOverlay"></div>
+                        <img style="height:320px;width:100%" src="~/ProductImg/@item.SliderPath" alt="First slide">
+                        <div class="carousel-caption">
+                            <h3>@item.Title</h3>
+                        </div>
+                    </div>
+                }
+
+            }
+        }
+    </div>
+
+
+    <a class="left carousel-control" href="#themeSlider" data-slide="prev">
+        <span class="fa fa-chevron-left"></span>
+    </a>
+    <a class="right carousel-control" href="#themeSlider" data-slide="next">
+        <span class="fa fa-chevron-right"></span>
+    </a>
+
+
+</div>
+
+<div class="olContent f1"><h2 style="color:black">Search Product/Category</h2></div>
+<form method="post">
+    <div class="olSearch fr">
+        <input type="text" name="search" placeholder="Enter Keyword" class="inputComn form-control"  required/>
+        <div class="searchIcon">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+    </div>
+</form>
+<link href="~/Content/sidebar.css" rel="stylesheet" />
+<div class="" style="margin-top: 10px;">
+    <div class="title"><strong> Filters</strong></div>
+    <ul id="category-tabs">
+        <li>
+            <a href="javascript:void" class="main-category" style="color:orangered"> Categories<i class="fa fa-plus"></i></a>
+            <ul class="sub-category-tabs" style="display:none;">
+                @{
+                    foreach (var cat in Model.categories)
+                    {
+                        <li><a href="@Url.Action("Filter", "Home", new {name="category", category=cat.CategoryId})">@cat.CategoryName</a></li>
+                    }
+                }
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:void" class="main-category" style="color:orangered"> Rating<i class="fa fa-plus"></i></a>
+            <ul class="sub-category-tabs product-rating" style="display:none;">
+                <li class="icon-d">
+                    <button style="text-decoration: none; padding: 0; border: none; background: none;" onclick="location.href='@Url.Action("Filter", "Home", new {name="rating", category=5})'" type="button">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </button>
+                </li>
+                <li class="icon-d">
+                    <button style="text-decoration: none; padding: 0; border: none; background: none;" onclick="location.href='@Url.Action("Filter", "Home", new {name="rating", category=4})'" type="button">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </button>
+                </li>
+                <li class="icon-d">
+                    <button style="text-decoration: none; padding: 0; border: none; background: none;" onclick="location.href='@Url.Action("Filter", "Home", new {name="rating", category=3})'" type="button">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </button>
+                </li>
+                <li class="icon-d">
+                    <button style="text-decoration: none; padding: 0; border: none; background: none;" onclick="location.href='@Url.Action("Filter", "Home", new {name="rating", category=2})'" type="button">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </button>
+                </li>
+                <li class="icon-d">
+                    <button style="text-decoration: none; padding: 0; border: none; background: none;" onclick="location.href='@Url.Action("Filter", "Home", new {name="rating", category=1})'" type="button">
+                        <i class="fa fa-star"></i>
+                    </button>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<!-- partial -->
+<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+<script src="~/Content/script.js"></script>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header">
+            <div class="title"><strong> Our Products</strong><sub><i style="color:oldlace">Trends</i></sub></div>
+        </div>
+    </div>
+</div>
+<div class="row product-container">
+    @foreach (var item in Model.ListOfProducts)
+    {
+        <div class="col-md-3 col-sm-3 col-xs-6" style="margin-bottom:8px">
+            <div class="thumbnail product-item" style="height:350px">
+                <a href="@Url.Action("ViewProduct", "Home", new {productId=item.ProductId})" style="text-decoration: none;">
+                    <img class="img-responsive .bg-secondary.bg-gradient" title="Click to View Product detail"
+                         style="cursor:pointer;height:160px;width:100%"
+                         src="~/ProductImg/@item.ProductImage" />
+
+                    <div class="caption">
+                        <h5>@item.ProductName</h5>
+                        <h4><span style="color:orange"><b>৳ @item.Price</b></span></h4>
+                        <p>
+                            @if (item.Quantity > 0 && item.IsDelete != null && !(bool)item.IsDelete)
+                            {
+                                using (Html.BeginForm("AddToCart", "Home", new { productId = item.ProductId, url = "Index" }, FormMethod.Post))
+                                {
+                                    <button type="submit" class="pull-right"><i class="fa fa-shopping-cart" style="color:green"></i></button>
+                                }
+                            <p> Available </p>
+                        }
+                        else
+                        {
+                            <p>Not Available</p>
+                        }
+                            </p>
+
+                            @if (item.IsFeatured == true)
+                            {
+                                <div class="product-item-badge" style="background-color:orangered">
+                                    <p style="text-align:center"><b>New</b></p>
+                                </div>
+
+                            }
+                            else
+                            {
+                                <div class="product-item-badge" style="background-color:black">
+                                    <p style="text-align:center"><b>Old</b></p>
+                                </div>
+                            }
+
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+</div>
+<div class="container">
+    @Html.PagedListPager(Model.ListOfProducts, page => Url.Action("Index", new
+    {
+        page,
+        search = Request.QueryString["search"]
+}), new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayItemSliceAndTotal = true })
+</div>

@@ -1,0 +1,73 @@
+﻿@model mothercare.Data.Tbl_Slider
+
+@{
+    ViewBag.Title = "Add New Slider";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid px-4">
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="../Admin/Dashboard">Dashboard</a></li>
+        <li class="breadcrumb-item ">Slider</li>
+        <li class="breadcrumb-item active">Add New Slider</li>
+    </ol>
+
+    @using (Html.BeginForm("SliderAdd", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+    <div>
+        <h4>Add New Slider</h4>
+        <hr />
+        @Html.HiddenFor(model => model.SliderId)
+
+    <div class="col-md-6">
+        <div class="form-group">
+            @Html.LabelFor(model => model.SliderPath, "Slider Image", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="file" id="file" style="width: 100%;" />
+                @Html.ValidationMessageFor(model => model.SliderPath, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsActive, "Active?", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.CheckBox("IsActive")
+                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IsDelete, "Delete?", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.CheckBox("IsDelete")
+                        @Html.ValidationMessageFor(model => model.IsDelete, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Title, "Slider Title", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Create" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    }
+                </div>

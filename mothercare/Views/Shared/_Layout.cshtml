@@ -1,0 +1,153 @@
+﻿@using mothercare.Models.Home
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title | MotherCare</title>
+    @*@Styles.Render("~/Content/css")*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/MyMainLayout.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    
+    <div class="container">
+        <div class="row">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="col-md-2 col-sm-2 col-xs-2">
+                    <a href="~/Home/Index">
+                        <div class="logo">
+                            <img src="~/Content/mothercare.png" style="width:150px;height:75px" />
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-6 col-sm-6 col-xs-6 pull-right">
+                    <div class="" style="text-align:center;cursor:pointer">
+                        <!-- Navbar-->
+
+                        @if (!string.IsNullOrEmpty(Session["Username"] as string))
+                        {
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown">
+                                        Welcome, @Session["Username"] [@Session["Role"]] <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            @{
+                                                if (Session["Role"].ToString() == "Admin")
+                                                {
+                                                    <a href="@Url.Action("Dashboard","Admin")">Admin Panel</a>
+                                                }
+                                            }
+                                            <a href="#!">Settings</a>
+                                            <a href="@Url.Action("OrderHistory","Home")">Order History</a>
+                                            <hr class="dropdown-divider" />
+                                            <a href="@Url.Action("Logout","Home")">Logout</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+                        }
+                        else
+                        {
+                            <ul class="nav navbar-nav navbar-right nav-stacked">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="~/Home/Login">Login</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        }
+                    </div>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            @if (Session["cart"] == null)
+                            {
+                                <a style="cursor: pointer; text-align: center" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-shopping-cart"></i>(0) <b class="caret"></b></a>
+                            }
+                            else
+                            {
+                                int i = 0;
+                                foreach (Item item in (List<Item>)Session["cart"])
+                                {
+                                    i++;
+                                }
+                                <a style="cursor: pointer; text-align:center" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-shopping-cart"></i>(@i) <b class="caret"></b></a>
+                            }
+                            @{ int koto = 0; }
+                        <ul class="dropdown-menu">
+                            @if (Session["cart"] != null)
+                            {
+                                foreach (Item item in (List<Item>)Session["cart"])
+                                {
+                                    <li><a href="@Url.Action("RemoveFromCart", "Home", new {productId=item.Product.ProductId, url = HttpContext.Current.Request.Url.AbsoluteUri})">@item.Product.ProductName (@item.Quantity) <i class="fa fa-times"></i></a></li>
+                                    koto++;
+                                }
+
+                            }
+                            @{
+                                if (koto > 0)
+                                {
+                                    <li class="divider"></li>
+                                    <li><a href="@Url.Action("Checkout","Home")">Checkout</a></li>
+                                }
+                            }
+
+
+                        </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="nav-menus">
+                    <ul class="nav nav-pills">
+                        <li class="active"><a style="border-radius: initial;" href="@Url.Action("Index","Home")">Home</a></li>
+                        <li ><a style="border-radius: initial;" href="@Url.Action("Location","Home")">Location</a></li>
+                        <li ><a style="border-radius: initial;" href="@Url.Action("About","Home")">About</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        @RenderBody()
+        <hr />
+        <footer>
+            <div class="row">
+                <div class="col-md-12 copyright">
+
+                    <div class="col-md-6 col-sm-6 copyright-left">
+                        <p>&copy; @DateTime.Now.Year - Mother Care. All right reserved.</p>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6 copyright-right">
+
+                        <ul class="list-unstyled list-social">
+                            <li><a href="#"><i class="fa fa-facebook-square"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

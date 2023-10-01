@@ -1,0 +1,158 @@
+﻿@model  mothercare.Models.Home.OrderHistoryClass
+@{
+    ViewBag.Title = "Order History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .accordion {
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+        transition: 0.4s;
+    }
+
+        .active, .accordion:hover {
+            background-color: #ccc;
+        }
+
+        .accordion:after {
+            content: '\002B';
+            color: #777;
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
+
+        .accordion.active:after {
+            content: "\2212";
+        }
+
+    .panel {
+        padding: 0 18px;
+        background-color: white;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+    }
+</style>
+@{ int count2 = 0;}
+@foreach (var item in Model.cart.ToList())
+{
+    count2++;
+}
+<link href="~/Content/sidebar.css" rel="stylesheet" />
+<div class="" style="margin-top: 10px;">
+    <div class="title"><strong> Order History</strong></div>
+    <ul id="category-tabs">
+        <li>
+            @{if (count2 > 0)
+                {
+                    foreach (var item in Model.cart.ToList())
+                    {
+                        <div style="margin-top: 10px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.10);border-radius:10px ">
+                            <a href="javascript:void" class="main-category" style="color: orangered; text-decoration: none; margin: 10px;font-size:15px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"> Order ID: @item.OrderId <p style="text-align:center">Date: @item.Date</p></a>
+                            <ul class="sub-category-tabs" style="display:none;">
+                                <li>
+                                    <table class="table table-bordered ali" style="text-align:center">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align:center">Payment Type</th>
+                                                <th style="text-align:center">Total</th>
+                                                <th style="text-align:center">Date</th>
+                                                <th style="text-align:center">Order Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>@item.PaymentType</td>
+
+                                                <td>@item.Total</td>
+                                                <td>@item.Date</td>
+                                                @{
+                                                    if (@item.Tbl_CartStatus.CartStatus == "Pending")
+                                                    {
+                                                        <td style="color:orangered"><b>@item.Tbl_CartStatus.CartStatus</b></td>
+                                                    }
+                                                    else if (@item.Tbl_CartStatus.CartStatus == "Confirmed")
+                                                    {
+                                                        <td style="color:green"><b>@item.Tbl_CartStatus.CartStatus</b></td>
+                                                    }
+                                                }
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                    <a href="javascript:void" class="main-category" style="color: orangered; text-decoration: none; margin: 10px;font-size:15px;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"> Details:</a>
+                                    <ul class="sub-category-tabs" style="display:none;">
+                                        <li>
+                                            <table class="table table-bordered ali" style="text-align:center">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="text-align:center">Product Name</th>
+                                                        <th style="text-align:center">Quantity</th>
+                                                        <th style="text-align:center">Price</th>
+                                                        <th style="text-align:center">Total Price</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @{
+                                                        foreach (var items in Model.cartItems.ToList().Where(x=>x.CartId==Convert.ToInt32(item.CartId)))
+                                                        {
+                                                            int koto = 0;
+                                                            koto = Convert.ToInt32(items.Quantity * items.Tbl_Product.Price);
+                                                            <tr>
+                                                                <td>@items.Tbl_Product.ProductName</td>
+                                                                <td>@items.Quantity</td>
+                                                                <td>@items.Tbl_Product.Price</td>
+                                                                <td>@koto</td>
+
+                                                            </tr>
+                                                        }
+                                                    }
+                                                </tbody>
+
+                                            </table>
+                                        </li>
+                                    </ul>
+                                </li>
+                                    </ul>
+</div>
+                    }
+                }
+                else
+                {
+    <div class="alert alert-danger">
+        <strong>No Order History!</strong>
+    </div>
+}
+                                            }
+</li>
+</ul>
+</div>
+<!-- partial -->
+<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+<script src="~/Content/script.js"></script>
+
+<script>
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+        });
+    }
+</script>
+
